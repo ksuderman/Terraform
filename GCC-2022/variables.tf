@@ -13,7 +13,7 @@ variable "instance_name" {
 variable "num_nodes" {
   description = "number of VMs to be created"
   type        = number
-  default     = 5
+  default     = 30
 }
 
 variable "node_offset" {
@@ -38,7 +38,7 @@ variable "image" {
 variable "flavor" {
   description = "VM instance type to be created."
   type        = string
-  default     = "m3.quad"
+  default     = "m3.small"
 }
 
 variable "key_pair" {

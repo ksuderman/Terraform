@@ -2,7 +2,7 @@
 resource "openstack_networking_secgroup_v2" "fw" {
   name = "${var.namespace}-firewall"
   description = "[tf] Security group for ${var.namespace}"
-  delete_default_rules = true
+  delete_default_rules = false
 }
 
 resource "openstack_networking_secgroup_rule_v2" "egress_ip4" {
