@@ -1,0 +1,35 @@
+resource "openstack_networking_network_v2" "network" {
+  name           = "${var.namespace}-${var.instance_name}-network"
+  description    = "[tf] network for ${var.namespace}" 
+  admin_state_up = "true"
+}
+
+resource "openstack_networking_subnet_v2" "subnet" {
+  name       = "${var.namespace}-${var.instance_name}-subnet"
+  network_id = "${openstack_networking_network_v2.network.id}"
+  cidr       = "192.168.0.0/16"
+  ip_version = 4
+}
+
+resource "openstack_networking_port_v2" "port" {
+  name               = "port"
+  network_id         = "${openstack_networking_network_v2.network.id}"
+  admin_state_up     = "true"
+  security_group_ids = ["${openstack_networking_secgroup_v2.fw.id}"]
+
+   fixed_ip {
+    subnet_id  = "${openstack_networking_subnet_v2.subnet.id}"
+    ip_address = "192.168.199.10"
+  } 
+}
+
+resource "openstack_networking_router_v2" "router" {
+  name                = "router"
+  admin_state_up      = true
+  external_network_id = "3fe22c05-6206-4db2-9a13-44f04b6796e6"
+}
+
+resource "openstack_networking_router_interface_v2" "http" {
+  router_id = openstack_networking_router_v2.router.id
+  subnet_id = openstack_networking_subnet_v2.subnet.id
+}
