@@ -6,8 +6,8 @@ variable "namespace" {
 
 variable "instance_name" {
   description = "FQDN will be formed from instance_name + [count.index] + '.' + domain"
-  type = string
-  default = "admin"
+  type        = string
+  default     = "admin"
 }
 
 variable "num_nodes" {
@@ -18,14 +18,14 @@ variable "num_nodes" {
 
 variable "node_offset" {
   description = "value to be added to the count.index when generating instance names"
-  type = number
-  default = 0
+  type        = number
+  default     = 0
 }
 
 variable "network" {
   description = "Network to use. Must already exist"
-  type = string
-  default = "gcc-2022"
+  type        = string
+  default     = "gcc-2022"
 }
 
 variable "image" {

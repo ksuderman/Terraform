@@ -4,8 +4,7 @@ resource "openstack_compute_instance_v2" "nodes" {
   image_name      = var.image
   flavor_name     = var.flavor
   key_pair        = openstack_compute_keypair_v2.user_key.name
-  security_groups = [ openstack_networking_secgroup_v2.fw.name, "default" ]
-  #security_groups = ["default"]
+  security_groups = [openstack_networking_secgroup_v2.fw.name, "default"]
   network {
     #port = "${openstack_networking_port_v2.port.id}"
     name = var.network
@@ -22,8 +21,8 @@ resource "openstack_networking_router_v2" "router-1" {
 
 # TODO
 #resource "openstack_networking_router_interface_v2" "router_interface_1" {
-  #router_id = openstack_networking_router_v2.router-1.id
-  #subnet_id = "gcc-subnet"
+#router_id = openstack_networking_router_v2.router-1.id
+#subnet_id = "gcc-subnet"
 #}
 
 resource "openstack_compute_floatingip_v2" "floating_ips" {
@@ -32,7 +31,7 @@ resource "openstack_compute_floatingip_v2" "floating_ips" {
 }
 
 resource "openstack_compute_floatingip_associate_v2" "node_ip" {
-  count = var.num_nodes
+  count       = var.num_nodes
   floating_ip = openstack_compute_floatingip_v2.floating_ips[count.index].address
   instance_id = openstack_compute_instance_v2.nodes[count.index].id
 }
