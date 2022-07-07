@@ -4,7 +4,7 @@ resource "openstack_compute_instance_v2" "nodes" {
   image_name      = var.image
   flavor_name     = var.flavor
   key_pair        = openstack_compute_keypair_v2.user_key.name
-  security_groups = [ "gcc2022-firewall", "default" ]
+  security_groups = [ openstack_networking_secgroup_v2.fw.name, "default" ]
   #security_groups = ["default"]
   network {
     #port = "${openstack_networking_port_v2.port.id}"
