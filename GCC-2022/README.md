@@ -9,17 +9,19 @@ A simple Terraform plan for launching multiple instances on Jetstream2.
 1. A directory named `inventories` in the current directory.  Since the directory is empty it may not be present in the GitHub repository
 1. A pre-existing network.  Be sure to change the `network` variable in the `variables.tf` file.
 
-The provider gets the OpenStack/Jetstream credentials from environment variables sourced from the `openrc.sh` file downloaded from Jetstream2
+The OpenStack/Jetstream credentials are loaded from environment variables sourced from the `openrc.sh` file.  The credentials and SSH keys are generated in a separate procedure.
+
 ## Usage
 
 ```bash
+source js2-gcc-openrc.sh
 terraform init
 terraform apply -var "num_nodes=N" -auto-approve
 ```
 
-The value of `N` is only restricted by the available CPU, memory, and storage in your allocation.
+The value of `N` is only restricted by the available CPU, memory, and storage in the allocation.
 
-To create multiple clusters from the same plan you can save the state information for each cluster in the `state` directory.
+To create multiple clusters from the same plan you must specify the name of the state file for the cluster. The `state` directory is provided for this purpose.
 
 ```bash
 terraform apply -state=state/GCC-2022 ...
@@ -39,7 +41,7 @@ terraform apply -var "key_pair=my_ssh_key" ...
 
 ## Future Work
 
-Generate a new SSH key as part of the provisioning process.
+~~Generate a new SSH key as part of the provisioning process.~~ Generating the SSH key should be done in a separate step.
 
 Get building a network/subnet/router working correctly.
 
