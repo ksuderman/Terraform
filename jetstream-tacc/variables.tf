@@ -58,9 +58,9 @@ variable "key_pair" {
   default     = "ks-tacc"
 }
 
-variable "ssh_key_file" {
-  default = "~/.ssh/ks-tacc.pem"
-}
+#variable "ssh_key_file" {
+#  default = "~/.ssh/${var.key_pair}.pem"
+#}
 
 # variable "firewall" {
 #   description = "the name of the security group to be applied."

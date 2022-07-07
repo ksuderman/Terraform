@@ -11,7 +11,6 @@ resource "openstack_compute_instance_v2" "nodes" {
   }
 }
 
-
 resource "openstack_compute_floatingip_v2" "floating_ips" {
   pool  = "public"
   count = var.num_nodes
@@ -30,7 +29,7 @@ resource "null_resource" "mount_volumes" {
     type     = "ssh"
     user     = "ubuntu"
     host     = openstack_compute_floatingip_v2.floating_ips[count.index].address
-    private_key = "${file(var.ssh_key_file)}"
+    private_key = "${file(local.key)}"
   }
 
   provisioner "file" {
@@ -43,19 +42,3 @@ resource "null_resource" "mount_volumes" {
       "sudo bash /home/ubuntu/system-init.sh ${openstack_compute_volume_attach_v2.attached[count.index].device} ${var.mount_point}"
     ]
   }
-  # provisioner "remote-exec" {
-  #   inline = [
-  #     "sudo mkfs.ext4 ${openstack_compute_volume_attach_v2.attached[count.index].device}",
-  #     "sudo mkdir ${var.mount_point}",
-  #     "sudo mount ${openstack_compute_volume_attach_v2.attached[count.index].device} ${var.mount_point}",
-  #     "sudo df -h ${var.mount_point}",
-  #     "bash -c 'sudo echo \"${openstack_compute_volume_attach_v2.attached[count.index].device} ${var.mount_point} ext4    defaults    0 0\" >> /etc/fstab'",
-  #   ]
-  # }
-
-}
-# module "tacc" {
-#   source  = "./modules/tacc"
-#   nodes   = openstack_compute_instance_v2.nodes
-#   volumes = var.tacc_volumes
-# }

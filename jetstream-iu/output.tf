@@ -12,14 +12,14 @@ locals {
 resource "local_file" "ipfile" {
     #count = var.num_nodes
     # for_each = var.flavors
-    count = length(var.flavors)
+    count = var.num_nodes
     content = templatefile("./templates/cluster.tpl", { ip=local.ips[count.index].address, key=local.key})
-    filename = pathexpand("~/.cluster/${var.instance_name}${var.flavors[count.index]}")
+    filename = pathexpand("~/.cluster/${var.instance_name}${count.index + 1}")
 }
 
 resource "local_file" "inventories" {
-    count = length(var.flavors)
+    count = var.num_nodes
     content = templatefile("./templates/inventory.tpl", { ip=local.ips[count.index].address, key=local.key, name=local.nodes[count.index].name})
-    filename = pathexpand("~/.inventories/${var.instance_name}${var.flavors[count.index]}.ini")
+    filename = pathexpand("~/.inventories/${var.instance_name}${count.index + 1}.ini")
     #filename = "/tmp/bench${count.index+1}.ini"
 }

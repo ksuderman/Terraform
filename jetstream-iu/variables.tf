@@ -1,13 +1,13 @@
 variable "namespace" {
   description = "A unique string used when generating resource names"
   type        = string
-  default     = "ks-tf-iu-bench"
+  default     = "ks-helm"
 }
 
 variable "instance_name" {
   description = "FQDN will be formed from instance_name + [count.index] + '.' + domain"
   type = string
-  default = "iu"
+  default = "helm"
 }
 
 # variable "num_nodes" {
@@ -19,7 +19,7 @@ variable "instance_name" {
 variable "disk_size" {
   description = "size of the volume to attache to each node"
   type        = number
-  default     = 100
+  default     = 500
 }
 
 variable "dns_zone_cloudve" {
@@ -51,10 +51,16 @@ variable "image" {
   default     = "JS-API-Featured-Ubuntu20-Latest"
 }
 
+variable "num_nodes" {
+  description = "the number of VMs to be launched"
+  type = number
+  default = 1
+}
+
 variable "flavor" {
   description = "VM instance type to be created."
   type        = string
-  default     = "m1.xlarge"
+  default     = "m1.medium"
 }
 
 variable "flavors" {
@@ -86,11 +92,13 @@ variable "network" {
   type        = string
   default     = "ks-network"
 }
+
 variable "public_ports" {
   description = "the ports to be opened to the world"
   type        = set(string)
   default     = ["22", "80", "443", "6443", "8000", "8080", "8443"]
 }
+
 variable "private_ports" {
   description = "ports only open to other nodes in the cluster"
   type = set(string)
