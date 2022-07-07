@@ -3,3 +3,5 @@
 .terraform/
 terraform.tfstate.backup
 terraform.tfstate
+.idea
+inventories/*.ini
